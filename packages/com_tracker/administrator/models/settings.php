@@ -14,7 +14,7 @@ jimport('joomla.application.component.modellist');
 class TrackerModelSettings extends JModelList {
 
 	// This removes the default limit of 20 on the getListQuery funcion
-	protected function populateState() {
+	protected function populateState($ordering = NULL, $direction = NULL) {
 		$this->setState('list.limit', 0);
 	}
 
