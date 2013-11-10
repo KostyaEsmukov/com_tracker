@@ -494,6 +494,10 @@ abstract class TrackerHelper {
 	}
 
 	function update_parameter($name, $value) { // Update a parameter value by name 
+		// update changed parameter for current execution
+		$params = JComponentHelper::getParams('com_tracker');
+		$params->set($name, $value);
+
 		// retrieve existing params
 		$db = JFactory::getDbo();
 		$db->setQuery('SELECT params FROM #__extensions WHERE name = "com_tracker"');
@@ -506,6 +510,10 @@ abstract class TrackerHelper {
 		$paramsString = json_encode( $params );
 		$db->setQuery('UPDATE #__extensions SET params = ' .$db->quote( $paramsString ) .' WHERE name = "com_tracker"' );
 		$db->query();
+
+		// clean cache
+		$cache = JFactory::getCache();
+		$cache->clean('_system');
 	}
 
 	function getFileImage($filename) {	// echos the filetype of the image
